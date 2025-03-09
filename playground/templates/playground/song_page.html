@@ -1,0 +1,210 @@
+{% extends 'playground/layout.html' %}
+{% load static %}
+
+{% block title %}
+    {{ song.title }}
+{% endblock %}
+
+{% block content %}
+    <div class="song-details">
+        <aside>
+            
+            {% if song.cover_image %}
+                <img src="{{ song.cover_image.url }}" alt="{{ song.title }}">
+            {% else %}
+                <img src="{% static 'defoult/defoult_cover_image.jpg' %}" alt="{{ song.title }}">
+            {% endif %}
+
+            <div class="about">
+                <h1>Name: <br>{{ song.title }}</h1>
+
+                <h1>Author: <br>{{ song.author }}</h1>
+
+                <h1>Posted by: <br>{{ song.posted_by }}</h1>
+        
+                <h1>Tag: <br>{{ song.tags }}</h1>     
+            </div>
+
+            <div class="like">
+                {% if song.id in saved_songs %}
+                    <div class="liked">
+                        <a href="{% url 'song_save' song.id %}">
+                            <i class="fa-solid fa-heart"></i>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="unliked">
+                        <a href="{% url 'song_save' song.id %}">
+                            <i class="fa-regular fa-heart"></i>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+
+        </aside>
+    </div>
+
+    <div class="add-to-album">
+
+        <select id="albumSelect" class="selected">
+            <option disabled selected>Add to album</option>
+            {% for album in albums %}
+                <option value="{% url 'add_song_to_album' song.id album.id %}">{{ album.title }}</option>
+            {% endfor %}
+        </select>
+        
+        <button type="button" class="btn btn-primary" onclick="redirectToAlbum_Catalog()">Submit</button>
+    </div>
+
+    <div class="custom-player">
+        <button id="playPause" class="play-btn"><i class="fa-solid fa-play"></i></button>
+        <span id="currentTime">0:00</span>
+        <div class="progress-container" id="progressContainer">
+            <input type="range" id="seekBar" value="0" step="0.1" min="0">
+        </div>
+        
+        <span id="duration">0:00</span>
+    </div>
+       
+    <audio id="audio" src="{{ song.audio.url }}" type="audio/mpeg"></audio>
+ 
+    <div class="vd">
+        <aside class="song-video">
+            <div class="media-container">
+                {% if song.video and song.video.url %}
+
+                    <video id="video" muted>
+                        <source src="{{ song.video.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+
+                {% else %}
+
+                    <video id="video" muted src="/static/defoult/defoult_video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+
+                {% endif %}
+            </div>
+        </aside>
+    </div>
+  
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const albumSelect = document.getElementById("albumSelect");
+    const submitButton = document.querySelector(".add-to-album button");
+
+    submitButton.addEventListener("click", function () {
+        const selectedUrl = albumSelect.value;
+        if (selectedUrl) {
+            window.location.href = selectedUrl;
+        } else {
+            alert("select an album before adding.");
+        }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const audio = document.getElementById("audio");
+    const video = document.getElementById("video");
+    const playPauseBtn = document.getElementById("playPause");
+    const seekBar = document.getElementById("seekBar");
+    const currentTimeEl = document.getElementById("currentTime");
+    const durationEl = document.getElementById("duration");
+    const aside = document.querySelector(".vd aside");
+
+    if (video) {
+        video.muted = true;
+    }
+
+    function formatTime(time) {
+        const min = Math.floor(time / 60);
+        const sec = Math.floor(time % 60).toString().padStart(2, "0");
+        return `${min}:${sec}`;
+    }
+
+    function updateProgress() {
+        seekBar.value = audio.currentTime;
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+    }
+
+    audio.addEventListener("loadedmetadata", function () {
+        seekBar.max = audio.duration;
+        durationEl.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener("timeupdate", updateProgress);
+
+    playPauseBtn.addEventListener("click", function () {
+        if (audio.paused) {
+            audio.play();
+            if (video) video.play();
+            playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        } else {
+            audio.pause();
+            if (video) video.pause();
+            playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+        }
+    });
+
+    seekBar.addEventListener("input", function () {
+        audio.currentTime = seekBar.value;
+        if (video) video.currentTime = seekBar.value;
+    });
+
+    if (video) {
+        video.addEventListener("ended", function () {
+            if (!audio.paused) {
+                video.currentTime = 0;
+                video.play();
+            }
+        });
+    }
+
+    function getDominantColorFromVideo(videoElement, callback) {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = 50;
+        canvas.height = 50;
+
+        function updateColor() {
+            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+            let r = 0, g = 0, b = 0, count = 0;
+            for (let i = 0; i < imageData.length; i += 4) {
+                r += imageData[i];
+                g += imageData[i + 1];
+                b += imageData[i + 2];
+                count++;
+            }
+
+            r = Math.floor(r / count);
+            g = Math.floor(g / count);
+            b = Math.floor(b / count);
+
+            callback(`rgb(${r}, ${g}, ${b})`);
+        }
+
+        setInterval(updateColor, 100);
+    }
+
+    if (video) {
+        video.addEventListener("play", function () {
+            getDominantColorFromVideo(video, function (color) {
+                aside.style.transition = "background 0.5s ease-in-out";
+                aside.style.background = `linear-gradient(120deg, ${color}, #000)`;
+            });
+        });
+    }
+});
+</script>
+{% endblock %}
+
+
+
+
+
+
+

@@ -1,0 +1,94 @@
+body {
+    background: rgb(0, 0, 0);
+    font-family: Arial, sans-serif;
+}
+
+aside {
+    background: rgb(16, 15, 17);
+    width: 15%;
+    padding: 1.8%;
+    height: 50vh;
+    margin-top: 20vh;
+    margin-left: 90vh;
+    border-radius: 10px;
+    display: block;
+}
+
+aside h2 {
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    margin-top: 20px;
+}
+
+aside .username,
+aside .password {
+    background-color: rgb(32, 31, 31);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+}
+
+aside form {
+    margin-top: 60px;
+    color: white;
+    text-align: center;
+    margin-right: 10px;
+}
+
+aside button {
+    margin-top: 20px;
+    font-weight: bolder;
+    background-color: #4337e0;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+aside p {
+    color: rgb(0, 110, 255);
+    font-size: 14px;
+    margin-top: 70px;
+    margin-left: 5px;
+}
+
+aside .sign-up form {
+    color: white;
+}
+
+aside .reg-form {
+    margin-top: 55px;
+}
+
+aside .reg-form input {
+    border-radius: 5px;
+    background-color: rgb(32, 31, 31);
+}
+
+aside .reg-form label {
+    color: white;
+}
+
+aside .reg-form p {
+    margin-top: -2px;
+    color: white;
+}
+
+aside .sign-up h2 {
+    margin-bottom: -35px;
+}
+
+aside .sign-up p {
+    margin-right: -10px;
+    margin-top: 10px;
+}
+
+aside .reg-form button {
+    margin-top: 15px;
+}
+
+aside span {
+    font-size: 0;
+}

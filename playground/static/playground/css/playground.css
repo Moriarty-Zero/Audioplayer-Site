@@ -1,0 +1,218 @@
+/* SONG FORM */
+.song-form {
+    margin-top: 100px;
+    margin-left: 600px;
+    height: 70vh;
+    width: 30%;
+}
+
+.song-form h1 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-left: 60px;
+}
+
+.song-form form {
+    margin-top: 40px;
+}
+
+.song-form input, 
+.song-form select {
+    background-color: rgb(46, 43, 43);
+    border-radius: 5px;
+    color: rgb(184, 174, 174);
+}
+
+.song-form label {
+    margin-top: 15px;
+}
+
+.song-form button {
+    margin-top: 20px;
+    margin-left: 140px;
+}
+
+/* Individual Form Sections */
+.title-form, .author-form, .tags-form, .audio-form, .cover-img-form, .video-form {
+    margin-left: 80px;
+}
+
+.audio-form, .cover-img-form, .video-form {
+    margin-left: 70px;
+}
+
+.audio-form label, .cover-img-form label, .video-form label {
+    margin-left: 80px;
+}
+
+.tags-form {
+    color: black;
+    margin-left: 110px;
+}
+
+.tags-form label {
+    color: white;
+}
+
+.tags-form select {
+    background-color: rgb(46, 43, 43);
+    color: rgb(184, 174, 174);
+    border-radius: 5px;
+}
+
+/* SONG PAGE */
+.custom-player {
+    position: absolute;
+    margin-top: 630px;
+    margin-left: 570px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #000000;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    color: white;
+}
+
+.play-btn {
+    background: #000000;
+    border: none;
+    color: white;
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.progress-container {
+    flex-grow: 1;
+    position: relative;
+}
+
+#seekBar {
+    width: 100%;
+    appearance: none;
+    background: #444;
+    height: 6px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#seekBar::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #554a47;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.media-container {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.song-details video, img,
+.media-container video, img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.song-video {
+    position: absolute;
+    margin-left: 264px;
+    width: 67%;
+    height: 73vh;
+    top: 40px;
+}
+
+.song-video video {
+    position: absolute;
+    margin-left: 490px;
+    height: 500px;
+    width: auto;
+    margin-top: -30px;
+}
+
+.add-to-album {
+    color: white;
+    margin-top: 55px;
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+}
+
+.add-to-album select {
+    background-color: #444;
+    border-radius: 8px;
+}
+
+.add-to-album select {
+    padding: 8px;
+}
+
+.add-to-album button {
+    margin-bottom: 6px;
+}
+
+.add-to-album option {
+    max-height: 5px;
+}
+
+.selected {
+    max-width: 150px;
+}
+
+/* Song Details */
+.song-details aside {
+    position: absolute;
+    margin-top: 110px;
+    right: 0;
+    height: 70vh;
+}
+
+.like {
+    position: absolute;
+    font-size: 25px;
+    top: 470px;
+    left: 195px;
+}
+
+.liked {
+    color: rgb(255, 0, 0);
+}
+
+.unliked {
+    color: rgb(94, 95, 97);
+}
+
+h1 {
+    margin-top: 10px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.song-details img {
+    margin-top: 0;
+    margin-left: 0;
+    height: 90px;
+    width: auto;
+}
+
+.about {
+    position: absolute;
+    margin-top: 30px;
+    margin-left: 40px;
+}
+
+.about h1 {
+    text-align: center;
+    margin-right: 70px;
+    padding: 8px;
+}

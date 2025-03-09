@@ -1,0 +1,42 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Home page
+{% endblock %}
+
+{% block content %}
+
+<div class="reg">
+    <aside>
+        <h1>REGISTER YOUR ACCOUNT</h1>
+        <p>You can register an account and start listening to music in our player. Also, save favorite songs and enjoy unlimited streaming today.</p>
+        <a href="{% url 'register' %}"><button type="button" class="btn btn-primary">Register</button></a>
+    </aside>
+</div>
+
+<div class="listen">
+    <aside>
+        <h1>PLAY YOUR FAVORITE SONGS</h1>
+        <p>Listen to favorite songs in a modern, free music player with great design. Enjoy high-quality sound and seamless playback anytime, anywhere.</p>
+        <a href="{% url 'song_catalog' %}"><button type="button" class="btn btn-warning">Go listen</button></a>
+    </aside>
+</div>
+
+<div class="albums">
+    <aside>
+        <h1>CREATE YOUR ALBUM</h1>
+        <p>Create an album with music you love. Other users can see, like, and explore your playlists with just one click.</p>
+        <a href="{% url 'album_catalog' %}"><button type="button" class="btn btn-danger">Albums</button></a>
+    </aside>
+</div>
+
+<div class="about">
+    <aside>
+        <h1>ABOUT ME</h1>
+        <p>If you want to see my other projects or support me, visit my profile. Check out my work and stay updated with news.</p>
+        <a href="{% url 'about' %}"><button type="button" class="btn btn-success">About me</button></a>
+    </aside>
+</div>
+
+
+{% endblock %}

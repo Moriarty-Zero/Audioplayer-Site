@@ -1,0 +1,52 @@
+{% extends 'playground/layout.html' %}
+
+{% block title %}
+    Upload Song
+{% endblock %}
+
+{% block content %}
+    <aside class="song-form">
+        <div class="upload">
+            <h1>Upload Audio File</h1>
+            
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="title-form">
+                    <label for="id_title">Title:</label>
+                    {{ form.title }}
+                </div>
+
+                <div class="audio-form">
+                    <label for="id_audio">Audio:</label>
+                    {{ form.audio }}
+                </div>
+
+                <div class="cover-img-form">
+                    <label for="id_cover_image">Cover image:</label>
+                    {{ form.cover_image }}
+                </div>
+
+                <div class="video-form">
+                    <label for="id_video">Video:</label>
+                    {{ form.video }}
+                </div>
+
+                <div class="author-form">
+                    <label for="id_author">Author:</label>
+                    {{ form.author }}
+                </div>
+
+                <div class="tags-form">
+                    <label for="id_tags">Tags:</label>
+                    {{ form.tags }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+
+        </div>
+    </aside>
+{% endblock %}
+
+

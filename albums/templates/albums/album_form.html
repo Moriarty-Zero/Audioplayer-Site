@@ -1,0 +1,47 @@
+{% extends 'albums/layout.html' %}
+
+{% block title %}
+    Create Album
+{% endblock %}
+
+{% block content %}
+<aside class="create-album-menu">
+    <div class="create-form">
+        <div>
+            <h1>Create new album</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div>
+                    <label for="id_title">Title:</label>
+                    {{ form.title }}
+                </div>
+
+                <div>
+                    <label for="id_about">About:</label>
+                    {{ form.about }}
+                </div>
+
+                <div class="album-img">
+                    <label for="id_album_image">Album image:</label>
+                    {{ form.album_image }}
+                </div>
+
+                <div>
+                    <label for="id_author">Author:</label>
+                    {{ form.author }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Upload</button>
+
+                
+            </form>
+
+        </div>
+    </div>
+</aside>
+
+{% endblock %}
+
+
+

@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    {% block link %}{% endblock %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'albums/css/albums.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/catalog.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.7.2/css/all.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body>
+
+    <aside>
+        <img src="{% static 'logo/logo.png' %}" alt="Logo">
+        <span class="logo">AudioPlayer</span>
+        <ul>
+            <a href="{% url 'home' %}"><li><i class="fas fa-home"></i> Home</li></a>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'song_catalog' %}"><li><i class="fa-solid fa-music"></i> Listen to music</li></a>
+                <a href="{% url 'saved_songs' %}"><li><i class="fa-solid fa-bookmark"></i> Saved</li></a>
+                <a href="{% url 'album_catalog' %}"><li><i class="fa-solid fa-compact-disc"></i> Albums</li></a>
+            {% else %}
+                <a href="{% url 'register' %}"><li><i class="fa-solid fa-music"></i> Listen to music</li></a>
+                <a href="{% url 'register' %}"><li><i class="fa-solid fa-bookmark"></i> Saved</li></a>
+                <a href="{% url 'register' %}"><li><i class="fa-solid fa-compact-disc"></i> Albums</li></a>
+            {% endif %}               
+                <a href="{% url 'about' %}"><li><i class="fa-regular fa-address-card"></i> About</li></a>
+            
+            <div class="relative">
+
+                <button class="py-0 bg-black-200 hover:bg-black-300 rounded-md" onclick="toggleDropdown()">
+                    <li><i class="fa-solid fa-gear"></i> Setting</li>
+                </button>
+            
+                <div id="dropdown" class="hidden absolute bg-black shadow-md rounded-md w-48 mt-2 -top-40">
+                    <ul class="p-2">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'song_form' %}"><li class="py-1 px-2 hover:bg-gray-700 rounded"><i class="fa-solid fa-upload"></i> Upload song</li></a>
+                            <a href="{% url 'album_form' %}"><li class="py-1 px-2 hover:bg-gray-700 rounded"><i class="fa-solid fa-record-vinyl"></i> Create album</li></a>
+                            <a href="{% url 'logout' %}"><li class="py-1 px-2 hover:bg-gray-700 rounded"><i class="fa-solid fa-right-from-bracket"></i> Log out</li></a>
+                        {% else %}
+                            <a href="{% url 'register' %}"><li class="py-1 px-2 hover:bg-gray-700 rounded"><i class="fa-solid fa-upload"></i> Upload song</li></a>
+                            <a href="{% url 'register' %}"><li class="py-1 px-2 hover:bg-gray-700 rounded"><i class="fa-solid fa-record-vinyl"></i> Create album</li></a>
+                            <a href="{% url 'login' %}"><li class="py-1 px-2 hover:bg-gray-700 rounded"><i class="fa-solid fa-right-to-bracket"></i> Log in</li></a> 
+                        {% endif %} 
+                    </ul>
+                </div>
+            </div>
+            
+            <script>
+                function toggleDropdown() {
+                    const dropdown = document.getElementById('dropdown');
+                    dropdown.classList.toggle('hidden');
+                }
+            </script>
+
+        </ul>
+    </aside>
+
+    {% if user.is_authenticated %}
+        <li class="welcome">
+            <span>Hello, {{ user.username }}</span>
+        </li>
+    {% else %}
+        <li class="log-in">
+            <a href="{% url 'login' %}">Log in</a>
+        </li>
+    {% endif %}
+
+    <main>
+    {% block content %}
+    {% endblock %}
+    </main>
+    
+</body>
+</html>

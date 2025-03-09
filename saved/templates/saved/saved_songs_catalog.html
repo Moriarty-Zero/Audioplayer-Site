@@ -1,0 +1,100 @@
+{% extends 'saved/layout.html' %}
+{% load static %}
+
+{% block title %}
+    Saved Songs
+{% endblock %}
+
+{% block content %}
+
+    <div>
+        <form method="GET" action="{% url 'saved_songs' %}">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search" class="search-songs">
+        </form>
+    </div>
+
+    {% if saved_songs %}
+    
+        <ul class="horizontal-list">
+            {% for song in saved_songs %}
+                <li class="relative">
+                    <div class="song-block">
+                        <button class="dropdown-button py-0  rounded-md">
+                            <i class="fa-solid fa-ellipsis-vertical icon-circle"></i>
+                        </button>
+                        
+                        <div class="dropdown hidden absolute bg-black shadow-md rounded-md w-48 p-2">
+                            <ul>
+                                <a href="{% url 'song_delete' song.original_song.id %}">
+                                    <li class="py-1 px-2 hover:bg-gray-700 rounded">
+                                        <i class="fa-solid fa-trash"></i> Delete song
+                                    </li>
+                                </a>
+                        
+                                <a href="{% url 'song_save' song.original_song.id %}">
+                                    <li class="py-1 px-2 hover:bg-gray-700 rounded">
+                                        <i class="fa-regular fa-bookmark"></i> Unsave song
+                                    </li>
+                                </a>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'song_page' song.original_song.id %}" class="song_item">
+                        
+                        {% if song.cover_image %}
+                            <img src="{{ song.cover_image.url }}" alt="{{ song.title }}" class="song-image">
+                        {% else %}
+                            <img src="{% static 'defoult/defoult_cover_image.jpg' %}" alt="{{ song.title }}" class="song-image">
+                        {% endif %}
+
+                        <div class="song-title">{{ song.title }}</div>
+                        {{ song.author }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    
+    {% else %}
+        <p class="no-found">Oops! Nothing found.</p>
+    {% endif %}
+
+
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("click", function (event) {
+        let isDropdownButton = event.target.closest(".dropdown-button");
+
+        document.querySelectorAll(".dropdown").forEach(dropdown => {
+            if (!dropdown.contains(event.target) && !isDropdownButton) {
+                dropdown.classList.add("hidden");
+            }
+        });
+
+        if (isDropdownButton) {
+            let dropdown = isDropdownButton.closest("li").querySelector(".dropdown");
+            if (dropdown) {
+                dropdown.classList.toggle("hidden");
+            }
+        }
+    });
+});
+
+document.addEventListener("scroll", function() {
+    let searchBox = document.querySelector(".search-songs");
+    let elements = document.querySelectorAll(".horizontal-list li");
+
+    elements.forEach(el => {
+        let rect = el.getBoundingClientRect();
+        let searchRect = searchBox.getBoundingClientRect();
+        
+        if (rect.bottom > searchRect.top - 10 && rect.top < searchRect.bottom) {
+            el.style.opacity = "0.4";
+        } else {
+            el.style.opacity = "1";
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends 'albums/layout.html' %}
+{% load static %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'albums/css/album_page.css' %}">
+{% endblock %}
+
+{% block title %}
+    {{ album.title }}
+{% endblock %}
+
+{% block content %}
+<ul class="horizontal-list">
+    {% for song in songs %}
+    <li class="relative">
+
+            <div class="song-menu">
+
+                <button class="dropdown-button py-0  rounded-md">
+                    <i class="fa-solid fa-ellipsis-vertical icon-circle"></i>
+                </button>
+                
+                <div class="dropdown hidden absolute bg-black shadow-md rounded-md w-48 p-2">
+                    <ul>
+                        
+                        <a href="{% url 'song_delete' song.id %}">
+                            <li class="py-1 px-2 hover:bg-gray-700 rounded">
+                                <i class="fa-solid fa-trash"></i> Delete song
+                            </li>
+                        </a>
+                
+                        <a href="{% url 'remove_song_from_album' song.id album.id %}">
+                            <li class="py-1 px-2 hover:bg-gray-700 rounded">
+                                <i class="fa-regular fa-bookmark"></i> Remove
+                            </li>
+                        </a>
+
+                    </ul>
+                </div>
+
+            </div>
+
+            <a href="{% url 'song_page' song.id %}" class="song_item">
+
+                {% if song.cover_image %}
+                    <img src="{{ song.cover_image.url }}" alt="{{ song.title }}" class="song-image">
+                {% else %}
+                    <img src="{% static 'defoult/defoult_cover_image.jpg' %}" alt="{{ song.title }}" class="song-image">
+                {% endif %}
+
+                <div class="song-title">{{ song.title }}</div>
+                {{ song.author }}
+
+            </a>
+    </li>
+    {% endfor %}
+</ul>
+
+<aside class="song-details">
+
+    <h1>Details</h1>
+
+    {% if album.album_image %}
+        <img src="{{ album.album_image.url }}" alt="{{ album.title }}" class="song-image">
+    {% else %}
+        <img src="{% static 'defoult/defoult_cover_image.jpg' %}" alt="{{ song.title }}" class="song-image">
+    {% endif %}
+
+    <h2>Name: <br>{{ album.title }}</h2>
+    <h2>Author: <br>{{ album.author }}</h2>
+    <h2>Posted by: {{ album.posted_by }}</h2>
+    <p>Details: <br>{{ album.about }}</p>
+
+</aside>
+
+<script>
+    document.addEventListener("scroll", function() {
+    let searchBox = document.querySelector(".search-songs");
+    let elements = document.querySelectorAll(".horizontal-list li");
+
+    elements.forEach(el => {
+        let rect = el.getBoundingClientRect(); 
+        let searchRect = searchBox.getBoundingClientRect();
+        
+        if (rect.bottom > searchRect.top - 10 && rect.top < searchRect.bottom) {
+            el.style.opacity = "0.4";
+        } else {
+            el.style.opacity = "1";
+        }
+    });
+});
+ 
+ 
+    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("click", function (event) {
+        let isDropdownButton = event.target.closest(".dropdown-button");
+
+        document.querySelectorAll(".dropdown").forEach(dropdown => {
+            if (!dropdown.contains(event.target) && !isDropdownButton) {
+                dropdown.classList.add("hidden");
+            }
+        });
+
+        if (isDropdownButton) {
+            let dropdown = isDropdownButton.closest("li").querySelector(".dropdown");
+            if (dropdown) {
+                dropdown.classList.toggle("hidden");
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
+
+
+
+
+

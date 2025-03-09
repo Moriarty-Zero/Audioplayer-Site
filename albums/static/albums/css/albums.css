@@ -1,0 +1,85 @@
+.create-album-menu {
+    width: 30%;
+    height: 70vh;
+    position: absolute;
+    right: 0;
+    margin-right: 500px;
+    margin-top: 100px;
+}
+
+.create-form {
+    margin-top: 80px;
+    color: white;
+    text-align: center;
+}
+
+.create-form h1 {
+    margin-top: -80px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.create-form form {
+    margin-top: 50px;
+}
+
+.create-form input {
+    margin-top: 10px;
+    background-color: rgb(46, 43, 43);
+    border-radius: 5px;
+}
+
+.create-form label {
+    margin-top: 20px;
+}
+
+.create-form button {
+    margin-top: 60px;
+}
+
+input[type='file'] {
+    background-color: rgb(16, 15, 17);
+}
+
+.album-img {
+    margin-left: 90px;
+}
+
+.album-img label {
+    margin-right: 80px;
+}
+
+.song-menu {
+    position: absolute;
+    margin-top: 15px;
+    margin-left: 125px;
+    z-index: 1000;
+}
+
+.song-details {
+    position: fixed;
+    right: 0;
+    margin-top: 70px;
+    top: 0;
+    height: 80%;
+}
+
+.song-details img {
+    margin-top: 20px;
+    width: 200px;
+    height: auto;
+    margin-left: 3px;
+    border-radius: 10px;
+}
+
+.song-details h1 {
+    font-weight: bold;
+    margin-left: 55px;
+    margin-top: -30px;
+}
+
+.song-details h2, .song-details p {
+    text-align: center;
+    margin-top: 8px;
+    overflow-wrap: break-word;
+}

@@ -1,0 +1,12 @@
+.horizontal-list li {
+    width: calc(100% / 6 - 15px) !important;
+}
+
+.horizontal-list {
+    padding-left: 260px !important;
+    padding-right: 205px;
+}
+
+.welcome, .log-in {
+    position: fixed !important;
+}

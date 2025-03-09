@@ -1,0 +1,93 @@
+body {
+    background: rgb(0, 0, 0);
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+aside {
+    position: fixed;
+    background: rgb(16, 15, 17);
+    width: 15%;
+    padding: 2.5%;
+    height: 92vh;
+    color: white;
+    margin-top: 4vh;
+    margin-left: 2vh;
+    border-radius: 10px;
+}
+
+aside img {
+    width: 50%;
+    margin-top: -35px;
+    margin-left: -45px;
+    user-select: none;
+}
+
+aside span {
+    font-size: 150%;
+    position: relative;
+    top: -50px;
+    left: 40px;
+    font-weight: bold;
+    user-select: none;
+}
+
+aside ul {
+    list-style: none;
+    padding: 5px;
+}
+
+aside ul li {
+    color: rgb(153, 146, 146);
+    margin-top: 10px;
+    transition: transform 0.3s ease;
+}
+
+aside ul a {
+    color: white;
+    text-decoration: none;
+}
+
+aside ul li:hover, aside ul a:hover {
+    color: white;
+    text-decoration: none;
+    transform: scale(1.03);
+}
+
+aside .relative {
+    margin-top: 330px;
+}
+
+main .features {
+    float: left;
+    color: white;
+    margin-top: 225px;
+    text-align: center;
+    width: 75%;
+}
+
+main .features h1 {
+    font-size: 50px;
+}
+
+main .features p {
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.welcome, .log-in {
+    color: white;
+    position: absolute;
+    list-style: none;
+    font-weight: bold;
+}
+
+.welcome {
+    margin-left: 92%;
+    margin-top: 20px;
+}
+
+.log-in {
+    margin-left: 94%;
+    margin-top: 20px;
+}

@@ -1,0 +1,94 @@
+{% extends 'albums/layout.html' %}
+{% load static %}
+
+{% block title %}
+    Song Catalog
+{% endblock %}
+
+{% block content %}
+
+    <div>
+        <form method="GET" action="{% url 'album_catalog' %}">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search" class="search-songs">
+        </form>
+    </div>
+
+    {% if albums %}
+    
+        <ul class="horizontal-list">
+            {% for album in albums %}
+
+                <li class="relative">
+                    <div class="song-block">
+
+                        <button class="dropdown-button py-0  rounded-md">
+                            <i class="fa-solid fa-ellipsis-vertical icon-circle"></i>
+                        </button>
+                        
+                        <div class="dropdown hidden absolute bg-black shadow-md rounded-md w-48 p-2">
+                            <ul>
+                                <a href="{% url 'album_delete' album.id %}">
+                                    <li class="py-1 px-2 hover:bg-gray-700 rounded">
+                                        <i class="fa-solid fa-trash"></i> Delete
+                                    </li>
+                                </a>                               
+                            </ul>
+                        </div>
+                    </div>
+               
+                    <a href="{% url 'album_page' album.id %}" class="song_item">
+
+                        {% if album.album_image %}
+                            <img src="{{ album.album_image.url }}" alt="{{ album.title }}" class="song-image">
+                        {% else %}
+                            <img src="{% static 'defoult/defoult_cover_image.jpg' %}" alt="{{ song.title }}" class="song-image">
+                        {% endif %}
+
+                        <div class="song-title">{{ album.title }}</div>
+                        {{ album.author }}
+                    </a>
+                
+            {% endfor %}
+        </ul>
+    
+    {% else %}
+        <p class="no-found">Oops! Nothing found.</p>
+    {% endif %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("click", function (event) {
+        let isDropdownButton = event.target.closest(".dropdown-button");
+    
+        document.querySelectorAll(".dropdown").forEach(dropdown => {
+            if (!dropdown.contains(event.target) && !isDropdownButton) {
+                dropdown.classList.add("hidden");
+            }
+        });
+     
+        if (isDropdownButton) {
+            let dropdown = isDropdownButton.closest("li").querySelector(".dropdown");
+            if (dropdown) {
+                dropdown.classList.toggle("hidden");
+            }
+        }
+    });
+});
+     
+document.addEventListener("scroll", function() {
+    let searchBox = document.querySelector(".search-songs");
+    let elements = document.querySelectorAll(".horizontal-list li");
+    
+    elements.forEach(el => {
+        let rect = el.getBoundingClientRect();
+        let searchRect = searchBox.getBoundingClientRect();
+            
+        if (rect.bottom > searchRect.top - 10 && rect.top < searchRect.bottom) {
+                el.style.opacity = "0.4";
+        } else {
+            el.style.opacity = "1";
+        }
+    });
+});
+</script>
+{% endblock %}
