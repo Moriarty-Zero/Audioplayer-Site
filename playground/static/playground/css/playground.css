@@ -1,7 +1,7 @@
 /* SONG FORM */
 .song-form {
     margin-top: 100px;
-    margin-left: 600px;
+    margin-left: 845px;
     height: 70vh;
     width: 30%;
 }
@@ -9,11 +9,12 @@
 .song-form h1 {
     font-size: 30px;
     font-weight: bold;
-    margin-left: 60px;
+    margin-left: 110px;
 }
 
 .song-form form {
     margin-top: 40px;
+    margin-left: 40px;
 }
 
 .song-form input, 
@@ -126,15 +127,15 @@
 
 .song-video {
     position: absolute;
-    margin-left: 264px;
+    margin-left: 328px;
     width: 67%;
-    height: 73vh;
-    top: 40px;
+    height: 70vh;
+    top: 75px;
 }
 
 .song-video video {
     position: absolute;
-    margin-left: 490px;
+    margin-left: 650px;
     height: 500px;
     width: auto;
     margin-top: -30px;
