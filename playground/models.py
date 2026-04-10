@@ -30,7 +30,7 @@ class Song(models.Model):
     
     # Song metadata
     tags = models.CharField(max_length=100, choices=Tags.choices, default=Tags.NONE)  # Genre/tag
-    author = models.CharField(max_length=70, default='Unknown')  # Song author
+    author = models.CharField(max_length=15, default='Unknown')  # Song author
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_songs')  # Uploader
 
     def __str__(self):

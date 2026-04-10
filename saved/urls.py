@@ -4,7 +4,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    #C
+    #Saved songs catalog
     path('saved_songs/', views.saved_songs_catalog, name='saved_songs'),
 
     #Save song
