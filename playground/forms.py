@@ -9,6 +9,5 @@ class SongForm(forms.ModelForm):
             'audio',
             'cover_image',
             'video',
-            'author',
-            'tags'
+            'tags',
             ]

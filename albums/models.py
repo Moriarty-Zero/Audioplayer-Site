@@ -8,7 +8,6 @@ class Album(models.Model):
     title = models.CharField(max_length=50)
     about = models.CharField(max_length=160)
     album_image = models.ImageField(upload_to='covers/')
-    author = models.CharField(max_length=70, default='Unknown')
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='albums')
 
     def __str__(self):

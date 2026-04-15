@@ -30,11 +30,10 @@ class Song(models.Model):
     
     # Song metadata
     tags = models.CharField(max_length=100, choices=Tags.choices, default=Tags.NONE)  # Genre/tag
-    author = models.CharField(max_length=15, default='Unknown')  # Song author
-    posted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_songs')  # Uploader
+    posted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_songs')  # Author
 
     def __str__(self):
-        return f'{self.title} - {self.author}'
+        return f'{self.title} - {self.posted_by}'
 
     def delete(self, *args, **kwargs):
         """

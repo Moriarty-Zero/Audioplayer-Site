@@ -23,7 +23,6 @@ class UserProfile(models.Model):
                 'cover_image': song.cover_image,  # Copy the cover image
                 'audio': song.audio,         # Copy the audio file
                 'video': song.video,         # Copy the video file (if available)
-                'author': song.author,       # Copy the song author
             }
         )
 
@@ -50,8 +49,7 @@ class SavedSong(models.Model):
     cover_image = models.ImageField(upload_to='saved_covers/', blank=True, null=True)
     audio = models.FileField(upload_to='saved_audio/')
     video = models.FileField(upload_to='saved_videos/', blank=True, null=True)
-    author = models.CharField(max_length=50, default='Unknow')
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posted_songs')
 
     def __str__(self):
-        return f'{self.user_profile.user.username} = {self.title} - {self.author}'
+        return f'{self.user_profile.user.username} = {self.title} - {self.posted_by}'

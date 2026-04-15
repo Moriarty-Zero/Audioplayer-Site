@@ -30,7 +30,6 @@ def song_save(request, song_id):
             'video': song.video,
             'cover_image': song.cover_image,
             'audio': song.audio,
-            'author': song.author,
             'posted_by': song.posted_by,
         }
     )
