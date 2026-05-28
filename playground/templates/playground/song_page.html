@@ -88,21 +88,25 @@
     </div>
   
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
+
+    // ===== ALBUM SELECT =====
     const albumSelect = document.getElementById("albumSelect");
     const submitButton = document.querySelector(".add-to-album button");
 
-    submitButton.addEventListener("click", function () {
-        const selectedUrl = albumSelect.value;
-        if (selectedUrl) {
-            window.location.href = selectedUrl;
-        } else {
-            alert("select an album before adding.");
-        }
-    });
-});
+    if (albumSelect && submitButton) {
+        submitButton.addEventListener("click", () => {
+            const selectedUrl = albumSelect.value;
 
-document.addEventListener("DOMContentLoaded", function () {
+            if (selectedUrl && selectedUrl.trim() !== "") {
+                window.location.href = selectedUrl;
+            } else {
+                alert("Select an album before adding.");
+            }
+        });
+    }
+
+    // ===== MEDIA PLAYER =====
     const audio = document.getElementById("audio");
     const video = document.getElementById("video");
     const playPauseBtn = document.getElementById("playPause");
@@ -111,47 +115,97 @@ document.addEventListener("DOMContentLoaded", function () {
     const durationEl = document.getElementById("duration");
     const aside = document.querySelector(".vd aside");
 
+    // Перевірка чи існують основні елементи
+    if (!audio || !playPauseBtn || !seekBar) {
+        return;
+    }
+
     if (video) {
         video.muted = true;
     }
 
+    // ===== FORMAT TIME =====
     function formatTime(time) {
+        if (isNaN(time)) return "0:00";
+
         const min = Math.floor(time / 60);
-        const sec = Math.floor(time % 60).toString().padStart(2, "0");
+        const sec = Math.floor(time % 60)
+            .toString()
+            .padStart(2, "0");
+
         return `${min}:${sec}`;
     }
 
+    // ===== UPDATE PROGRESS =====
     function updateProgress() {
         seekBar.value = audio.currentTime;
-        currentTimeEl.textContent = formatTime(audio.currentTime);
+
+        if (currentTimeEl) {
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+        }
     }
 
-    audio.addEventListener("loadedmetadata", function () {
-        seekBar.max = audio.duration;
-        durationEl.textContent = formatTime(audio.duration);
-    });
+    // ===== LOADED METADATA =====
+    audio.addEventListener("loadedmetadata", () => {
+        seekBar.max = audio.duration || 0;
 
-    audio.addEventListener("timeupdate", updateProgress);
-
-    playPauseBtn.addEventListener("click", function () {
-        if (audio.paused) {
-            audio.play();
-            if (video) video.play();
-            playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-        } else {
-            audio.pause();
-            if (video) video.pause();
-            playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+        if (durationEl) {
+            durationEl.textContent = formatTime(audio.duration);
         }
     });
 
-    seekBar.addEventListener("input", function () {
-        audio.currentTime = seekBar.value;
-        if (video) video.currentTime = seekBar.value;
+    // ===== TIME UPDATE =====
+    audio.addEventListener("timeupdate", updateProgress);
+
+    // ===== PLAY / PAUSE =====
+    playPauseBtn.addEventListener("click", async () => {
+
+        try {
+            if (audio.paused) {
+
+                await audio.play();
+
+                if (video) {
+                    video.currentTime = audio.currentTime;
+                    await video.play();
+                }
+
+                playPauseBtn.innerHTML =
+                    '<i class="fa-solid fa-pause"></i>';
+
+            } else {
+
+                audio.pause();
+
+                if (video) {
+                    video.pause();
+                }
+
+                playPauseBtn.innerHTML =
+                    '<i class="fa-solid fa-play"></i>';
+            }
+
+        } catch (error) {
+            console.error("Playback error:", error);
+        }
     });
 
+    // ===== SEEK BAR =====
+    seekBar.addEventListener("input", () => {
+
+        const time = Number(seekBar.value);
+
+        audio.currentTime = time;
+
+        if (video) {
+            video.currentTime = time;
+        }
+    });
+
+    // ===== LOOP VIDEO =====
     if (video) {
-        video.addEventListener("ended", function () {
+        video.addEventListener("ended", () => {
+
             if (!audio.paused) {
                 video.currentTime = 0;
                 video.play();
@@ -159,7 +213,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // ===== DOMINANT COLOR =====
+    let colorInterval = null;
+
     function getDominantColorFromVideo(videoElement, callback) {
+
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
 
@@ -167,35 +225,82 @@ document.addEventListener("DOMContentLoaded", function () {
         canvas.height = 50;
 
         function updateColor() {
-            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
 
-            let r = 0, g = 0, b = 0, count = 0;
-            for (let i = 0; i < imageData.length; i += 4) {
-                r += imageData[i];
-                g += imageData[i + 1];
-                b += imageData[i + 2];
-                count++;
+            // Якщо відео не готове
+            if (videoElement.readyState < 2) {
+                return;
             }
 
-            r = Math.floor(r / count);
-            g = Math.floor(g / count);
-            b = Math.floor(b / count);
+            try {
 
-            callback(`rgb(${r}, ${g}, ${b})`);
+                ctx.drawImage(
+                    videoElement,
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+
+                const imageData = ctx.getImageData(
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                ).data;
+
+                let r = 0;
+                let g = 0;
+                let b = 0;
+                let count = 0;
+
+                for (let i = 0; i < imageData.length; i += 4) {
+
+                    r += imageData[i];
+                    g += imageData[i + 1];
+                    b += imageData[i + 2];
+
+                    count++;
+                }
+
+                r = Math.floor(r / count);
+                g = Math.floor(g / count);
+                b = Math.floor(b / count);
+
+                callback(`rgb(${r}, ${g}, ${b})`);
+
+            } catch (error) {
+                console.error("Color extraction error:", error);
+            }
         }
 
-        setInterval(updateColor, 100);
+        // Очищаємо старий interval
+        if (colorInterval) {
+            clearInterval(colorInterval);
+        }
+
+        colorInterval = setInterval(updateColor, 100);
     }
 
-    if (video) {
-        video.addEventListener("play", function () {
-            getDominantColorFromVideo(video, function (color) {
-                aside.style.transition = "background 0.5s ease-in-out";
-                aside.style.background = `linear-gradient(120deg, ${color}, #000)`;
+    // ===== VIDEO PLAY =====
+    if (video && aside) {
+
+        video.addEventListener("play", () => {
+
+            getDominantColorFromVideo(video, (color) => {
+
+                aside.style.transition =
+                    "background 0.5s ease-in-out";
+
+                aside.style.background =
+                    `linear-gradient(120deg, ${color}, #000)`;
             });
         });
+
+        video.addEventListener("pause", () => {
+            clearInterval(colorInterval);
+        });
     }
+
 });
 </script>
 {% endblock %}

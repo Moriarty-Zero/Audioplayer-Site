@@ -78,7 +78,7 @@
 }
 
 .play-btn {
-    background: #000000;
+    background: rgb(16, 15, 17);
     border: none;
     color: white;
     font-size: 16px;
@@ -89,6 +89,7 @@
 }
 
 .progress-container {
+    margin-top: 200px;
     flex-grow: 1;
     position: relative;
 }
@@ -100,6 +101,8 @@
     height: 6px;
     border-radius: 5px;
     cursor: pointer;
+    
+   
 }
 
 #seekBar::-webkit-slider-thumb {
